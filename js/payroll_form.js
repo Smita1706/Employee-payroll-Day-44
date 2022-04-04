@@ -90,45 +90,53 @@ window.addEventListener("DOMContentLoaded", (event) => {
 const save = () => {
     try {
         let employeePayrollData = createEmployeePayrollObject();
-    } catch (e) {
+        if (employeePayrollData != undefined) updateLocalStorage(employeePayrollData);
+    } catch (submitError) {
+        alert(submitError);
         return;
     }
 };
+function updateLocalStorage(employeePayrollData) {
+    let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+    if (employeePayrollList != undefined) {
+        employeePayrollList.push(employeePayrollData);
+    } else {
+        employeePayrollList = [employeePayrollData];
+    }
+    alert(employeePayrollList);
+    localStorage.setItem("EmployeePayrollList", JSON.stringify(employeePayrollList));
+}
 
 const createEmployeePayrollObject = () => {
     let employeePayrollData = new EmployeePayrollData();
+
+    employeePayrollData.name = getValue("#name");
+    employeePayrollData.gender = getSelectedValues("[name=gender]").pop();
+    employeePayrollData.profilePicture = getSelectedValues("[name=profile]").pop();
+    employeePayrollData.salary = getValue("#salary");
+    dateString = document.querySelector("#month").value + " " + document.querySelector("#day").value + ", " + document.querySelector("#year").value;
+    employeePayrollData.startDate = new Date(dateString);
+    employeePayrollData.note = getValue("#notes");
     try {
-        employeePayrollData.name = getSelectedValues("[#name]");
-    } catch (e) {
+        employeePayrollData.departments = getSelectedValues("[name=department]");
+    } catch (error) {
         alert(error);
         return;
     }
-    employeePayrollData.profilePicture = getSelectedValues("[name=profile]").pop();
-    employeePayrollData.gender = getSelectedValues("[name=gender]").pop();
-    employeePayrollData._departments = getSelectedValues("[name=department]").pop();
-    employeePayrollData.salary = getValue("#salary");
-    employeePayrollData.note = getValue("#notes");
-    dateString = document.querySelector("#day").value + " " + document.querySelector("#month").value + ", " + document.querySelector("#year").value;
-    employeePayrollData.Date = Date.parse(date);
-    alert(employeePayrollData.toString);
+    alert("Employee Added Successfully!\n" + employeePayrollData.toString());
     return employeePayrollData;
 };
 
 const getSelectedValues = (propertyName) => {
     let allValues = document.querySelectorAll(propertyName);
-    let selValues = [];
+    let selectedValues = [];
     allValues.forEach(input => {
-        if (input.checked) selValues.push(input.value);
+        if (input.checked) selectedValues.push(input.value);
     });
-    return selValues;
+    return selectedValues;
 };
 
-const getInputValueById =(id)=>{
-    let value = document.querySelector(id).value;
+const getValue = (propertyId) => {
+    let value = document.querySelector(propertyId).value;
     return value;
-}
-
-const getInputElementValue = (id) => {
-    let value = document.getElementById(id).value;
-    return value;
-}
+};
