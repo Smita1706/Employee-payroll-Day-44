@@ -16,12 +16,11 @@ class EmployeePayrollData {
             this._name = name;
         } else throw "Name is Incorrect!";
     }
-
-    get salary() {
-        return this._salary;
+    get profilePicture() {
+        return this._profilePicture;
     }
-    set salary(salary) {
-        this._salary = salary;
+    set profilePicture(profilePicture) {
+        this._profilePicture = profilePicture;
     }
 
     get gender() {
@@ -30,7 +29,24 @@ class EmployeePayrollData {
     set gender(gender) {
         this._gender = gender;
     }
-
+    get departments() {
+        return this._departments;
+    }
+    set departments(departments) {
+            this._departments = departments;
+    }
+    get salary() {
+        return this._salary;
+    }
+    set salary(salary) {
+        this._salary = salary;
+    }
+    get note() {
+        return this._note;
+    }
+    set note(note) {
+        this._note = note;
+    }
     get startDate() {
         return this._startDate;
     }
@@ -38,15 +54,6 @@ class EmployeePayrollData {
         if (startDate <= new Date()) {
             this._startDate = startDate;
         } else throw "Start Date is Incorrect!";
-    }
-
-    get departments() {
-        return this._departments;
-    }
-    set departments(departments) {
-        if (departments.length != 0) {
-            this._departments = departments;
-        } else throw "No Department Entered!";
     }
 
     toString() {
